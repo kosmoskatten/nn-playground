@@ -3,7 +3,7 @@ module Main where
 import Data.Vector (fromList)
 
 import Layer
-import Network (mkLiteralNetwork, feedForward)
+import Network (mkLiteralNetwork, feedForward, totalErr)
 
 main :: IO ()
 main = do
@@ -14,5 +14,8 @@ main = do
                                  , [ 0.5, 0.55]
                                  ] [0.6, 0.6]
         network = mkLiteralNetwork hidden output
+        out     = feedForward network $ fromList [ 0.05, 0.1 ]
+        err     = totalErr [0.01, 0.99] out
 
-    print $ feedForward network $ fromList [ 0.05, 0.1 ]
+    print out
+    print err
