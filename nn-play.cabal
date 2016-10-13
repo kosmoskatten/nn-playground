@@ -16,6 +16,7 @@ executable nn-play
   hs-source-dirs:      src
   main-is:             Main.hs
   other-modules:       Layer
+                       Network
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5
                      , vector

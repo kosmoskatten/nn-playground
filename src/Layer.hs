@@ -1,12 +1,11 @@
-module Layer 
+module Layer
     ( NNVector
     , Layer
     , mkLiteralLayer
     , feed
-    , fromList
     ) where
 
-import Data.Vector
+import Data.Vector (Vector)
 
 import qualified Data.Vector as V
 
@@ -17,15 +16,15 @@ data Layer = Layer
     , biases  :: !NNVector
     } deriving Show
 
-mkLiteralLayer :: Vector NNVector -> NNVector -> Layer
-mkLiteralLayer = Layer
+mkLiteralLayer :: [[Float]] -> [Float] -> Layer
+mkLiteralLayer ws bs = Layer (V.fromList $ map V.fromList ws) $ V.fromList bs
 
 feed :: Layer -> NNVector -> NNVector
-feed layer input = imap onNeutron $ biases layer
+feed layer input = V.imap onNeutron $ biases layer
     where
         onNeutron :: Int -> Float -> Float
         onNeutron index bias =
-            let w   = weights layer ! index
+            let w   = weights layer V.! index
                 net = input <.> w + bias
             in sigma net
 
